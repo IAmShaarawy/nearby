@@ -118,6 +118,9 @@ data class ExploreResponse(
                         @SerializedName("lng")
                         val lng: Double
                     )
+
+                    @Transient
+                    val fullAddress = formattedAddress.reduce { acc, new -> "$acc, $new" }
                 }
 
                 data class Category(
