@@ -12,12 +12,13 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import dev.elshaarawy.nearby.data.entities.Coordinates
 
 /**
  * @author Mohamed Elshaarawy on Dec 29, 2019.
  */
 class LocationUpdatesLiveData(ctx: Context, private val singleUpdate: Boolean = false) :
-    LiveData<Pair<Double, Double>>() {
+    LiveData<Coordinates>() {
 
     private val fusedLocation by lazy { LocationServices.getFusedLocationProviderClient(ctx) }
 
@@ -35,7 +36,7 @@ class LocationUpdatesLiveData(ctx: Context, private val singleUpdate: Boolean = 
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult?.lastLocation?.apply {
-                    postValue(latitude to longitude)
+                    postValue(Coordinates(latitude, longitude))
                 }
             }
         }
@@ -53,24 +54,24 @@ class LocationUpdatesLiveData(ctx: Context, private val singleUpdate: Boolean = 
     }
 
     @RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])
-    override fun observe(owner: LifecycleOwner, observer: Observer<in Pair<Double, Double>>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in Coordinates>) {
         removeObservers(owner)
         super.observe(owner, observer)
     }
 
     @RequiresPermission(anyOf = [Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION])
-    override fun observeForever(observer: Observer<in Pair<Double, Double>>) {
+    override fun observeForever(observer: Observer<in Coordinates>) {
         removeObserver(observer)
         super.observeForever(observer)
     }
 
-    override fun postValue(value: Pair<Double, Double>?) {
+    override fun postValue(value: Coordinates?) {
         super.postValue(value)
         if (singleUpdate)
             fusedLocation.removeLocationUpdates(locationCallbacks)
     }
 
-    override fun setValue(value: Pair<Double, Double>?) {
+    override fun setValue(value: Coordinates?) {
         super.setValue(value)
         if (singleUpdate)
             fusedLocation.removeLocationUpdates(locationCallbacks)
