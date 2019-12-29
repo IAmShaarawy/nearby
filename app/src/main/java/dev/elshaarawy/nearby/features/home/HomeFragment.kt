@@ -3,6 +3,7 @@ package dev.elshaarawy.nearby.features.home
 import android.Manifest
 import android.content.Intent
 import androidx.lifecycle.Observer
+import com.forsale.app.base.ActionScanner
 import dev.elshaarawy.nearby.R
 import dev.elshaarawy.nearby.base.BaseFragment
 import dev.elshaarawy.nearby.databinding.FragmentHomeBinding
@@ -15,7 +16,9 @@ import timber.log.Timber
 /**
  * @author Mohamed Elshaarawy on Dec 29, 2019.
  */
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home) {
+class HomeFragment :
+    BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.fragment_home),
+    ActionScanner {
 
     private val locationPermission by PermissionsDelegate(
         LOCATION_PERMISSION_REQ_CODE,
@@ -27,6 +30,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
     override val viewModel: HomeViewModel by viewModel()
 
     override fun HomeViewModel.observeViewModel() {
+        contentState.shot(viewLifecycleOwner) {
+            binding.stateContainer.restToContent()
+        }
+
+        loadingState.shot(viewLifecycleOwner) {
+            binding.stateContainer.changeStateAndBindActions(R.layout.loading, this@HomeFragment)
+        }
+
+        errorState.shot(viewLifecycleOwner) {
+            binding.stateContainer.changeStateAndBindActions(R.layout.error, this@HomeFragment)
+        }
+
+        emptyState.shot(viewLifecycleOwner) {
+            binding.stateContainer.changeStateAndBindActions(R.layout.empty, this@HomeFragment)
+        }
+
         runWithLocationPermissionAndGPS.shot(viewLifecycleOwner) {
             locationPermission.withPermission {
                 gpsSettings.withGPSEnabled(false) {
@@ -36,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
         }
 
         items.observe(viewLifecycleOwner, Observer {
-
+            Timber.e("Size: ${it.count()}")
         })
     }
 
