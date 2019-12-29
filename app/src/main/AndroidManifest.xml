@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dev.elshaarawy.nearby">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:name=".app.NearbyApp"
         android:allowBackup="true"
