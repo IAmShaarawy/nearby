@@ -2,6 +2,7 @@ package dev.elshaarawy.nearby.features.home
 
 import android.Manifest
 import android.content.Intent
+import androidx.lifecycle.Observer
 import dev.elshaarawy.nearby.R
 import dev.elshaarawy.nearby.base.BaseFragment
 import dev.elshaarawy.nearby.databinding.FragmentHomeBinding
@@ -9,6 +10,7 @@ import dev.elshaarawy.nearby.delegates.GPSSettingsDelegate
 import dev.elshaarawy.nearby.delegates.PermissionsDelegate
 import dev.elshaarawy.nearby.extensions.shot
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 /**
  * @author Mohamed Elshaarawy on Dec 29, 2019.
@@ -32,6 +34,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(R.layout.f
                 }
             }
         }
+
+        items.observe(viewLifecycleOwner, Observer {
+
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

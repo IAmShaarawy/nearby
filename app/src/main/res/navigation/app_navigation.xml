@@ -7,7 +7,6 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="dev.elshaarawy.nearby.features.splash.SplashFragment"
-        android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
@@ -17,6 +16,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="dev.elshaarawy.nearby.features.home.HomeFragment"
-        android:label="HomeFragment"
+        android:label="Nearby"
         tools:layout="@layout/fragment_home" />
 </navigation>

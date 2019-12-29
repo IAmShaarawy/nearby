@@ -2,6 +2,7 @@ package dev.elshaarawy.nearby.features.home
 
 import androidx.lifecycle.*
 import dev.elshaarawy.nearby.data.entities.ExploreResponse
+import dev.elshaarawy.nearby.data.entities.ExploreResponse.Group.Item
 import dev.elshaarawy.nearby.data.repositories.PreferencesRepository
 import dev.elshaarawy.nearby.data.repositories.VenueRepository
 import dev.elshaarawy.nearby.extensions.launch
@@ -17,7 +18,9 @@ class HomeViewModel(
     val runWithLocationPermissionAndGPS: LiveData<Unit> = _runWithLocationPermissionAndGPS
 
     private val _exploreResponse = MediatorLiveData<ExploreResponse>()
-    val exploreResponse: LiveData<ExploreResponse> = _exploreResponse
+
+    val items: LiveData<List<Item>> =
+        Transformations.map(_exploreResponse) { it.groups.flatMap { it.items } }
 
     private val locationBroadcastSource by lazy { venueRepository.getVenueUpdates(viewModelScope) }
 
