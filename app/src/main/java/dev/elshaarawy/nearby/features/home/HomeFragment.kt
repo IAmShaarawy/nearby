@@ -2,7 +2,10 @@ package dev.elshaarawy.nearby.features.home
 
 import android.Manifest
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.forsale.app.base.ActionScanner
 import dev.elshaarawy.nearby.R
 import dev.elshaarawy.nearby.base.BaseFragment
@@ -10,8 +13,8 @@ import dev.elshaarawy.nearby.databinding.FragmentHomeBinding
 import dev.elshaarawy.nearby.delegates.GPSSettingsDelegate
 import dev.elshaarawy.nearby.delegates.PermissionsDelegate
 import dev.elshaarawy.nearby.extensions.shot
+import dev.elshaarawy.nearby.features.home.item.NearbyAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 /**
  * @author Mohamed Elshaarawy on Dec 29, 2019.
@@ -27,7 +30,16 @@ class HomeFragment :
 
     private val gpsSettings by GPSSettingsDelegate()
 
+    private val nearyAdapter by lazy { NearbyAdapter() }
     override val viewModel: HomeViewModel by viewModel()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rv.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = nearyAdapter
+        }
+    }
 
     override fun HomeViewModel.observeViewModel() {
         contentState.shot(viewLifecycleOwner) {
@@ -55,7 +67,7 @@ class HomeFragment :
         }
 
         items.observe(viewLifecycleOwner, Observer {
-            Timber.e("Size: ${it.count()}")
+            nearyAdapter.submitList(it)
         })
     }
 

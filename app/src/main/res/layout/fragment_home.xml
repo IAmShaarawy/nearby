@@ -21,6 +21,7 @@
             android:background="@color/colorSecondaryLight">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -119,8 +119,7 @@ data class ExploreResponse(
                         val lng: Double
                     )
 
-                    @Transient
-                    val fullAddress = formattedAddress.reduce { acc, new -> "$acc, $new" }
+                    val fullAddress get() =  formattedAddress.reduce { acc, new -> "$acc, $new" }
                 }
 
                 data class Category(
