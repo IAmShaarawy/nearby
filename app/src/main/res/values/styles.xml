@@ -11,7 +11,6 @@
     </style>
 
     <style name="AppTheme.splash" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
     </style>
 </resources>
