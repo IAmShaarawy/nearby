@@ -21,6 +21,9 @@ data class ExploreResponse(
     @SerializedName("groups")
     val groups: List<Group>
 ) {
+    @Transient
+    var coordinates: Coordinates? = null
+
     data class SuggestedFilters(
         @SerializedName("header")
         val header: String,
