@@ -1,6 +1,5 @@
 package dev.elshaarawy.nearby.data.network.services
 
-import android.location.Location
 import dev.elshaarawy.nearby.data.entities.ExploreResponse
 import retrofit2.http.GET
 import retrofit2.http.Query

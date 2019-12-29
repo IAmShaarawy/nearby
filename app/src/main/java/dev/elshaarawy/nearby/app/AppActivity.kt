@@ -26,7 +26,7 @@ class AppActivity : AppCompatActivity() {
     private val navController by lazy { findNavController(R.id.appNavHost) }
     private val appBarConfiguration by lazy { AppBarConfiguration(topLevelDestination) }
     private val topLevelDestination by lazy {
-        setOf(R.id.splashFragment)
+        setOf(R.id.splashFragment, R.id.homeFragment)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +36,8 @@ class AppActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         configureNavController()
     }
+
+    override fun onSupportNavigateUp() = navController.navigateUp()
 
     private fun setBindingVariables() {
         binding.apply {
